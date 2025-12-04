@@ -1,0 +1,31 @@
+version: 0.2
+
+env:
+  variables:
+    STACK_NAME: lambda-one
+    AWS_REGION: ap-south-2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - echo "Installing SAM CLI"
+      - pip install aws-sam-cli
+  pre_build:
+    commands:
+      - echo "Starting pre-build..."
+      - sam --version
+  build:
+    commands:
+      - echo "Running sam build..."
+      - sam build
+  post_build:
+    commands:
+      - echo "Deploying with sam deploy..."
+      - sam deploy --stack-name "$STACK_NAME" --region "$AWS_REGION" --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
+
+artifacts:
+  files:
+    - template.yaml
+    - .aws-sam/build/**
