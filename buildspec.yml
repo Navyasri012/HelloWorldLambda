@@ -15,6 +15,7 @@ phases:
   pre_build:
     commands:
       - echo "Starting pre-build..."
+      - cd lambda-one
       - sam --version
   build:
     commands:
